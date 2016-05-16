@@ -1,0 +1,50 @@
+#coding=utf-8
+import re
+
+#formatProName 函数，将抓取的原始电视节目名字进行处理
+def formatProName(str):
+    pattern = re.compile(u".+[:|：].+[:|：](.+)(（.+）)")
+    match = pattern.match(str)
+    if match:
+        #print 1
+        return match.group(1)
+    pattern = re.compile(u"(.+)(：|:)(.+)(\d+-\d+)$")
+    match = pattern.match(str)
+    if match:
+        #print 2
+        result, number = re.subn(u"\d+$","",match.group(3))
+        return result
+    pattern = re.compile(u"(.+)(：|:)(.+)(\d+)$")
+    match = pattern.match(str)
+    if match:
+        #print 3
+        result, number = re.subn(u"[\d+\/\d+|\d+]+$","",match.group(3))
+        return result
+    pattern = re.compile(u"(.+)(:|：)(.+)([\(|（].+[\)|）])$")
+    match = pattern.match(str)
+    if match:
+        #print 4
+        return match.group(3)
+    pattern = re.compile(u"(.+)[：|:](.+)")
+    match = pattern.match(str)
+    if match:
+        #print 5
+        return match.group(2)
+    pattern = re.compile(u"(.+)([\(|（].+[\)|）])")
+    match = pattern.match(str)
+    if match:
+        #print 6
+        return match.group(1)
+    pattern = re.compile(u".+\d+$")
+    match = pattern.match(str)
+    if match:
+        #print 7
+        result, number = re.subn(u"-*\d+$","",str)
+        return result
+    return str
+'''
+s0 = unicode("画壁（邓超）",'utf-8')
+s = formatProName(s0)
+print s
+'''
+

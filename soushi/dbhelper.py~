@@ -1,0 +1,11 @@
+#coding=utf-8
+import mysql.connector
+
+def addPro(l):
+    conn = mysql.connector.connect(user='root', password='lacom159753', database='smarthome', use_unicode=True)
+    cursor = conn.cursor()
+    for p in l:
+        cursor.execute('insert into program(time, name ,nexttime, cid, channel) values (%s, %s, %s, %s, %s)', [p.time, p.name, p.end, p.cid, p.channel])
+        conn.commit()
+    cursor.close()
+    conn.close()
